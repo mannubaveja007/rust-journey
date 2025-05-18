@@ -1,0 +1,11 @@
+/Users/mannubaveja/temp/rust/learn_borsh/target/debug/deps/libborsh-38d91a3ffacf7aa5.rmeta: /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/lib.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/de/mod.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/de/hint.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/ser/mod.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/ser/helpers.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/error.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/../docs/rustdoc_include/borsh_crate_top_level.md
+
+/Users/mannubaveja/temp/rust/learn_borsh/target/debug/deps/borsh-38d91a3ffacf7aa5.d: /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/lib.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/de/mod.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/de/hint.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/ser/mod.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/ser/helpers.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/error.rs /Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/../docs/rustdoc_include/borsh_crate_top_level.md
+
+/Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/lib.rs:
+/Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/de/mod.rs:
+/Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/de/hint.rs:
+/Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/ser/mod.rs:
+/Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/ser/helpers.rs:
+/Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/error.rs:
+/Users/mannubaveja/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/borsh-1.5.7/src/../docs/rustdoc_include/borsh_crate_top_level.md:
