@@ -7,7 +7,7 @@
 //     println!("Connecting to redis...");
 
 //     // 1. conencting to redis
-//     let client  = redis::Client::open("redis://default:jlSSAuQWiDzAQeTU4YZ29GVurjB1Sc0J@redis-10320.crce220.us-east-1-4.ec2.cloud.redislabs.com:10320")?;
+//     let client  = redis::Client::open("")?;
 
 //     let mut con = client.get_connection()?; // connects to the client
 //     sleep(Duration::from_secs(2)).await;
@@ -42,7 +42,7 @@
 
 //     // 1. Configure the pool
     
-//     let redis_url  = "redis://default:jlSSAuQWiDzAQeTU4YZ29GVurjB1Sc0J@redis-10320.crce220.us-east-1-4.ec2.cloud.redislabs.com:10320";
+//     let redis_url  = "";
 
 //     let cfg = Config::from_url(redis_url);
 
@@ -88,7 +88,7 @@
 
 //     // 1. Configure the pool
     
-//     let redis_url  = "redis://default:jlSSAuQWiDzAQeTU4YZ29GVurjB1Sc0J@redis-10320.crce220.us-east-1-4.ec2.cloud.redislabs.com:10320";
+//     let redis_url  = "";
 
 //     let cfg = Config::from_url(redis_url);
 
@@ -144,7 +144,7 @@ use futures_util::StreamExt; // You may need to run `cargo add futures-util`
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let redis_url = "redis://default:jlSSAuQWiDzAQeTU4YZ29GVurjB1Sc0J@redis-10320.crce220.us-east-1-4.ec2.cloud.redislabs.com:10320";
+    let redis_url = "";
 
     // -- 1. Subscriber task --
     let client = redis::Client::open(redis_url)?;
