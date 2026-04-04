@@ -70,7 +70,7 @@ async fn show_all(State(mut state): State<AppState>) -> impl IntoResponse {
 async fn main() {
     tracing_subscriber::fmt::init();
     // 1. Connect to redis
-    let client = redis::Client::open("redis://").unwrap();
+    let client = redis::Client::open("redis://default:jlSSAuQWiDzAQeTU4YZ29GVurjB1Sc0J@redis-10320.crce220.us-east-1-4.ec2.cloud.redislabs.com:10320").unwrap();
     let mut conn = client.get_multiplexed_async_connection().await.unwrap();
 
     // 2. Wrap in Arc<Mutext>> and put into the AppState
@@ -81,8 +81,8 @@ async fn main() {
 
     let app = Router::new()
         .route("/shorten", post(shorten_url))
-        .route("/:code", get(redirect))
-        .route("urls", get(show_all))
+        .route("/{code}", get(redirect))
+        .route("/urls", get(show_all))
         .with_state(state);
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
         .await
