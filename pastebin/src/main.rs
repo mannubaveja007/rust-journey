@@ -17,24 +17,24 @@ use uuid::Uuid;
 
 #[derive(Deserialize)]
 struct CreatePasteRequest {
-    content:    String,          // the text content of the paste
-    language:   Option<String>,  // e.g. "rust", "python" (optional)
-    expires_in: Option<u64>,     // TTL in seconds, default 600 (10 mins)
+    content:    String,          
+    language:   Option<String>,  
+    expires_in: Option<u64>,     
 }
 
 #[derive(Serialize)]
 struct PasteResponse {
-    code:       String,   // short code e.g. "a1b2c3d4"
-    content:    String,   // the paste text
-    language:   String,   // programming language label
-    views:      i64,      // how many times it has been viewed
-    expires_in: i64,      // remaining TTL in seconds (-1 = no expiry)
+    code:       String,   
+    content:    String,   
+    language:   String,   
+    views:      i64,      
+    expires_in: i64,      
 }
 
 #[derive(Serialize)]
 struct CreatePasteResponse {
-    code:     String,   // short code to share
-    url:      String,   // full URL e.g. "http://localhost:3000/paste/a1b2c3d4"
+    code:     String,   
+    url:      String,   
 }
 
 #[derive(Clone)]
