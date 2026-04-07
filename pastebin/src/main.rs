@@ -51,18 +51,19 @@ async fn create_paste(
 ) -> impl IntoResponse {
 
     let code = Uuid::new_v4().to_string()[..8].to_string();
+    let key = format!("paste:{}", code);
     
     let language = body.language.unwrap_or("text".to_string());
     
     let ttl = body.expires_in.unwrap_or(600);
     
-    let _: () = state.redis.hset_multiple(&code, &[
+    let _: () = state.redis.hset_multiple(&key, &[
         ("content",  &body.content),
         ("language", &language),
         ("views",    &String::from("0")),
     ]).await.unwrap();
     
-    let _: () = state.redis.expire(&code, ttl.try_into().unwrap()).await.unwrap();
+    let _: () = state.redis.expire(&key, ttl.try_into().unwrap()).await.unwrap();
     
     let url = format!("http://localhost:3000/paste/{}", code);
     
@@ -116,6 +117,7 @@ async fn main() {
     .route("/paste/{code}", get(get_paste))
     .with_state(app_state);
 
+    println!("Runing Server at http://localhost:3000");
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 
