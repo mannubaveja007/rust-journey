@@ -22,7 +22,7 @@ struct RequestResponse {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("requesting an GET request to httpbin!");
+    println!("requesting an GET request to ip-api!");
     let body: RequestResponse = reqwest::get("http://ip-api.com/json/<Your_IP_ADDRESS>")
         .await?
         .json()
