@@ -30,7 +30,7 @@ use clap::Parser as _;
 use clap_file::{Input, Output};
 use flate2::Compression;
 use flate2::write::GzEncoder;
-use std::io::{self, BufRead as _, Write as _};
+use std::io::{self, Write};
 use std::time::Instant;
 /// Simple program to Take input an file to compress and output an compressed file
 #[derive(clap::Parser, Debug)]
@@ -43,6 +43,22 @@ struct Args {
     /// Output of File
     #[arg(short = 'o', long)]
     out: Output,
+
+    /// Decompress mode
+    #[arg(short = 'd', long)]
+    decompress: bool,
+}
+
+fn decompress_file(input: &mut impl io::Read, output: &mut impl Write) -> io::Result<u64> {
+    let mut decoder = flate2::read::GzDecoder::new(input);
+    let bytes_out = io::copy(&mut decoder, output)?;
+    Ok(bytes_out)
+}
+fn compress_file(input: &mut impl io::Read, output: &mut impl Write) -> io::Result<u64> {
+    let mut encoder = GzEncoder::new(output, Compression::default());
+    let bytes_in = io::copy(input, &mut encoder)?;
+    encoder.finish()?;
+    Ok(bytes_in)
 }
 
 fn main() -> io::Result<()> {
@@ -51,11 +67,36 @@ fn main() -> io::Result<()> {
     let mut output = args.out.lock();
     // let result = args.num1 + args.num2;
     // println!("Your Result : {result}");
-    let mut encoder = GzEncoder::new(output, Compression::default());
+    // let mut encoder = GzEncoder::new(output, Compression::default());
     let start = Instant::now();
-    let bytes_in = io::copy(&mut input, &mut encoder)?;
-    let output = encoder.finish().unwrap();
-    println!("Source bytes: {}", bytes_in);
-    println!("Elapsed : {:?}", start.elapsed());
+    // let bytes_in = io::copy(&mut input, &mut encoder)?;
+    // let output = encoder.finish().unwrap();
+    // println!("Source bytes: {}", bytes_in);
+    // println!("Elapsed : {:?}", start.elapsed());
+
+    if args.decompress {
+        let bytes_out = decompress_file(&mut input, &mut output)?;
+        println!("Decompressed: {} bytes", bytes_out);
+    } else {
+        let bytes_in = compress_file(&mut input, &mut output)?;
+        println!("Original    : {} bytes", bytes_in);
+    }
+
+    println!("Elapsed     : {:?}", start.elapsed());
+
     Ok(())
 }
+
+//  fn main() -> io::Result<()> {
+//      let args = Args::parse();
+//      let mut input = args.file.lock();
+//      let mut output = args.out.lock();
+// -    // let result = args.num1 + args.num2;
+// -    // println!("Your Result : {result}");
+// -    let mut encoder = GzEncoder::new(output, Compression::default());
+//      let start = Instant::now();
+// -    let bytes_in = io::copy(&mut input, &mut encoder)?;
+// -    let output = encoder.finish().unwrap();
+// -    println!("Source bytes: {}", bytes_in);
+// -    println!("Elapsed : {:?}", start.elapsed());
+// +
