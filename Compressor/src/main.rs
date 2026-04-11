@@ -28,7 +28,10 @@
 
 use clap::Parser as _;
 use clap_file::{Input, Output};
+use flate2::Compression;
+use flate2::write::GzEncoder;
 use std::io::{self, BufRead as _, Write as _};
+use std::time::Instant;
 /// Simple program to Take input an file to compress and output an compressed file
 #[derive(clap::Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -44,10 +47,15 @@ struct Args {
 
 fn main() -> io::Result<()> {
     let args = Args::parse();
-    let input = args.file.lock();
+    let mut input = args.file.lock();
     let mut output = args.out.lock();
     // let result = args.num1 + args.num2;
     // println!("Your Result : {result}");
+    let mut encoder = GzEncoder::new(output, Compression::default());
+    let start = Instant::now();
+    let bytes_in = io::copy(&mut input, &mut encoder)?;
+    let output = encoder.finish().unwrap();
+    println!("Source bytes: {}", bytes_in);
+    println!("Elapsed : {:?}", start.elapsed());
     Ok(())
-
 }
