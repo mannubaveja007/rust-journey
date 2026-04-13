@@ -28,7 +28,7 @@ fn gen_jwt(email: &str) -> String {
     return tkn;
 }
 
-fn decode_jwt(token: String, secret: String) -> Result<(), Error> {
+fn decode_jwt(token: &String, secret: String) -> Result<(), Error> {
     let bruh: jsonwebtoken::TokenData<Claims> = decode(
         &token,
         &DecodingKey::from_secret(secret.as_ref()),
@@ -43,6 +43,8 @@ fn main() {
     println!("Enter your email Mr!");
     io::stdin().read_line(&mut email).unwrap();
     let token = gen_jwt(email.trim());
-
-    println!("token => {}", token);
+    let token_decode = decode_jwt(&token ,"PUT_YOUR_OWN_SECRET_HERE".to_string());
+    println!("{:?}",token_decode);
+ 
+    println!("token => {}", &token);
 }
