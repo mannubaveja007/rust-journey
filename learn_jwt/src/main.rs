@@ -43,8 +43,8 @@ fn main() {
     println!("Enter your email Mr!");
     io::stdin().read_line(&mut email).unwrap();
     let token = gen_jwt(email.trim());
-    let token_decode = decode_jwt(&token ,"PUT_YOUR_OWN_SECRET_HERE".to_string());
-    println!("{:?}",token_decode);
- 
+    let token_decode = decode_jwt(&token, "PUT_YOUR_OWN_SECRET_HERE".to_string());
+    println!("{:?}", token_decode);
+
     println!("token => {}", &token);
 }
