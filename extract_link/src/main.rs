@@ -8,7 +8,7 @@ use tokio;
 async fn main() -> Result<(), Error> {
     println!("Extracting information...");
     let res = reqwest::get("https://www.google.com").await?.text().await?;
-    // test btw
+    
     Document::from(res.as_str())
         .find(Name("a"))
         .filter_map(|n| n.attr("href"))
