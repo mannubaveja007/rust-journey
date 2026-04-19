@@ -5,8 +5,14 @@ use tokio;
 
 #[tokio::main]
 
-async fn main() -> Result<(),Error> {
-    println!("Hello, world!");
+async fn main() -> Result<(), Error> {
+    println!("Extracting information...");
+    let res = reqwest::get("https://www.google.com").await?.text().await?;
+
+    Document::from(res.as_str())
+        .find(Name("a"))
+        .filter_map(|n| n.attr("href"))
+        .for_each(|x| println!("{}", x));
 
     Ok(())
 }
