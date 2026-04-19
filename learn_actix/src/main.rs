@@ -15,6 +15,8 @@ async fn manual() -> impl Responder {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     println!("Welcome to the Actix Server!");
+    println!("Listening on port http://127.0.0.1:8080");
+
     HttpServer::new(|| {
         App::new()
             .service(hello)
