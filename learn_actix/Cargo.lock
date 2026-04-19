@@ -758,6 +758,7 @@ name = "learn_actix"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "tokio",
 ]
 
 [[package]]
