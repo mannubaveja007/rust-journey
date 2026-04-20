@@ -4,6 +4,15 @@ use jsonwebtoken::{EncodingKey, Header, encode};
 
 use serde::{Deserialize, Serialize};
 
+use axum::{
+    middleware::Next,
+    response::Response,
+};
+use axum_extra::{
+    TypedHeader,
+    headers::{Authorization, authorization::Bearer},
+};
+
 #[derive(Debug, Serialize, Deserialize)]
 struct Claims {
     sub: String, // User ID
@@ -11,16 +20,15 @@ struct Claims {
     exp: usize, // Expiration timestamp
 }
 
-fn verify_jwt(token: &str) -> Claims {
+fn verify_jwt(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
     let secret = b"SUPER_SECRET_KEY";
 
     let data = decode::<Claims>(
         token,
         &DecodingKey::from_secret(secret),
         &Validation::default(),
-    )
-    .unwrap();
-    data.claims
+    )?;
+    Ok(data.claims)
 }
 
 fn create_jwt(user_id: String, email: String) -> String {
@@ -46,6 +54,19 @@ fn create_jwt(user_id: String, email: String) -> String {
         &EncodingKey::from_secret(secret),
     )
     .unwrap()
+}
+
+
+async fn auth_middleware(
+    TypedHeader(Authorization(bearer)): TypedHeader<Authorization<Bearer>>,
+    request: axum::http::Request<axum::body::Body>,
+    next: Next,
+) -> Result<Response, axum::http::StatusCode> {
+    let token = bearer.token();
+    match verify_jwt(token) {
+        Ok(_) => Ok(next.run(request).await),
+        Err(_) => Err(axum::http::StatusCode::UNAUTHORIZED),
+    }
 }
 
 fn main() {
