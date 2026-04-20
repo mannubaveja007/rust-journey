@@ -3,7 +3,7 @@ use jsonwebtoken::{DecodingKey, Validation, decode};
 use jsonwebtoken::{EncodingKey, Header, encode};
 
 use serde::{Deserialize, Serialize};
-
+use axum::{Router, routing::get};
 use axum::{
     middleware::Next,
     response::Response,
@@ -69,6 +69,17 @@ async fn auth_middleware(
     }
 }
 
-fn main() {
+async fn protected_handler() -> &'static str {
+    "Bruhhh Protected data accessed!"
+}
+
+
+#[tokio::main]
+async fn main() {
     println!("Now We are going to start Axum API endpoint + JWT proper Scalable API!");
+    let app = Router::new()
+    .route("/protected", get(protected_handler))
+        .layer(axum::middleware::from_fn(auth_middleware));
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
+    axum::serve(listener, app).await.unwrap();
 }
