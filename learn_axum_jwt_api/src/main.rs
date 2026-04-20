@@ -11,6 +11,18 @@ struct Claims {
     exp: usize, // Expiration timestamp
 }
 
+fn verify_jwt(token: &str) -> Claims {
+    let secret = b"SUPER_SECRET_KEY";
+
+    let data = decode::<Claims>(
+        token,
+        &DecodingKey::from_secret(secret),
+        &Validation::default(),
+    )
+    .unwrap();
+    data.claims
+}
+
 fn create_jwt(user_id: String, email: String) -> String {
     let expiration = Utc::now()
         .checked_add_signed(chrono::Duration::hours(24))
@@ -24,17 +36,7 @@ fn create_jwt(user_id: String, email: String) -> String {
         exp: expiration,
     };
 
-    fn verify_jwt(token: &str) -> Claims {
-        let secret = b"SUPER_SECRET_KEY";
-
-        let data = decode::<Claims>(
-            token,
-            &DecodingKey::from_secret(secret),
-            &Validation::default(),
-        )
-        .unwrap();
-        data.claims
-    }
+   
 
     let secret = b"THIS_IS_VERY_VERY_STRONG_PASSWORD";
     // encode is the main function
