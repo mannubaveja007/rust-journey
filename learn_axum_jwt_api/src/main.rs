@@ -4,13 +4,6 @@ use jsonwebtoken::{EncodingKey, Header, encode};
 
 use serde::{Deserialize, Serialize};
 
-use axum::{
-    extract::TypedHeader,
-    headers::Authorization,
-    middleware::Next,
-    response::Response,
-};
-
 #[derive(Debug, Serialize, Deserialize)]
 struct Claims {
     sub: String, // User ID
