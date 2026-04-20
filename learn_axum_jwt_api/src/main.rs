@@ -17,7 +17,7 @@ use axum_extra::{
 struct Claims {
     sub: String, 
     email: String,
-    exp: usize,oip
+    exp: usize,
 }
 
 const JWT_SECRET: &[u8] = b"THIS_IS_VERY_VERY_STRONG_PASSWORD";
