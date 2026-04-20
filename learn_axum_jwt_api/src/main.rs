@@ -15,17 +15,17 @@ use axum_extra::{
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Claims {
-    sub: String, // User ID
+    sub: String, 
     email: String,
-    exp: usize, // Expiration timestamp
+    exp: usize,oip
 }
 
-fn verify_jwt(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
-    let secret = b"SUPER_SECRET_KEY";
+const JWT_SECRET: &[u8] = b"THIS_IS_VERY_VERY_STRONG_PASSWORD";
 
+fn verify_jwt(token: &str) -> Result<Claims, jsonwebtoken::errors::Error> {
     let data = decode::<Claims>(
         token,
-        &DecodingKey::from_secret(secret),
+        &DecodingKey::from_secret(JWT_SECRET),
         &Validation::default(),
     )?;
     Ok(data.claims)
@@ -46,16 +46,18 @@ fn create_jwt(user_id: String, email: String) -> String {
 
    
 
-    let secret = b"THIS_IS_VERY_VERY_STRONG_PASSWORD";
     // encode is the main function
     encode(
         &Header::default(),
         &claims,
-        &EncodingKey::from_secret(secret),
+        &EncodingKey::from_secret(JWT_SECRET),
     )
     .unwrap()
 }
 
+async fn login_handler() -> String {
+    create_jwt("123".to_string(), "user@example.com".to_string())
+}
 
 async fn auth_middleware(
     TypedHeader(Authorization(bearer)): TypedHeader<Authorization<Bearer>>,
@@ -77,9 +79,15 @@ async fn protected_handler() -> &'static str {
 #[tokio::main]
 async fn main() {
     println!("Now We are going to start Axum API endpoint + JWT proper Scalable API!");
-    let app = Router::new()
-    .route("/protected", get(protected_handler))
+    println!("Listening on port : http://127.0.0.1:8080");
+    let protected = Router::new()
+        .route("/protected", get(protected_handler))
         .layer(axum::middleware::from_fn(auth_middleware));
+
+    let app = Router::new()
+        .route("/login", get(login_handler))
+        .merge(protected);
+
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
