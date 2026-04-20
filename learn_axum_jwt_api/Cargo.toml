@@ -1,5 +1,5 @@
 [package]
-name = "learn_substrate"
+name = "learn_axum_jwt_api"
 version = "0.1.0"
 edition = "2024"
 
