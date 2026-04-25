@@ -7,6 +7,13 @@ use axum::{
     routing::{get, post, put},
 };
 
+use mongodb::{
+    bson::{Document,doc},
+    Client,
+    Collection
+};
+
+
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
