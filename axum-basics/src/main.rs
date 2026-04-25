@@ -8,11 +8,9 @@ use axum::{
 };
 
 use mongodb::{
-    bson::{Document,doc},
-    Client,
-    Collection
+    Client, Collection,
+    bson::{Document, doc},
 };
-
 
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -110,6 +108,14 @@ async fn update_todo(
 #[tokio::main]
 async fn main() {
     println!("Hello, world!");
+    println!("Connecting to MongoDB Client...");
+    let client = Client::with_uri_str("mongodb://localhost:27017/")
+        .await
+        .expect("Your Connection String is incorrect!");
+    let dbs = client.list_database_names().await.expect("unable to fetch DBs");
+    println!("Successfully Connected :=> {:?}",dbs);
+    let database = client.database("todo_list_rust");
+    let my_collection : Collection<Document> = database.collection("todo_list");
     let state = AppState {
         db: Arc::new(Mutex::new(HashMap::new())),
     };
