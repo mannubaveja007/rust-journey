@@ -1,25 +1,18 @@
 # MongoDB Rust Tutorial
 
-This is a small Rust project that connects to a local MongoDB database and fetches one stock document.
+This is a simple Rust project I made to test how Rust can talk to MongoDB through a small backend server.
 
-Right now it:
+The app runs on `Axum`, connects to a local MongoDB instance, and checks the `stocks` collection inside `stockDB`. Right now it looks for a stock with the name `Tesla` and returns that document as JSON when you open the root route.
 
-- connects to `mongodb://localhost:27017/`
-- uses the database `stockDB`
-- reads from the `stocks` collection
-- looks for a document where `name = "Tesla"`
-
-## Run It
-
-Make sure MongoDB is running locally, then start the app with:
+If you want to run it locally, first make sure MongoDB is running on `mongodb://localhost:27017/`. After that, start the project with:
 
 ```bash
 cargo run
 ```
 
-## Sample MongoDB Data
+The server will start on `http://127.0.0.1:3000`.
 
-If you want to test it quickly, insert this in MongoDB:
+To test it properly, you can add a sample document in MongoDB:
 
 ```javascript
 use stockDB
@@ -30,14 +23,8 @@ db.stocks.insertOne({
 })
 ```
 
-## Output
+Then open `http://127.0.0.1:3000` in your browser or call it with any API tool. If the document exists, you will get it back as JSON. If not, the app will return `Stock not found`.
 
-The program prints the matching document if it finds one. If not, it prints `None`.
+The main code is in [src/main.rs](/Users/mannubaveja/temp/rust/MongoDB-Rust-tutorial/src/main.rs:1).
 
-## Main File
-
-The code is in [src/main.rs](/Users/mannubaveja/temp/rust/MongoDB-Rust-tutorial/src/main.rs:1).
-
-## Video
-
-https://www.tella.tv/video/mannus-video-1a5p
+Demo video: https://www.tella.tv/video/vid_cmoff9uvn009u04l4cw32hxw4/view?quick
