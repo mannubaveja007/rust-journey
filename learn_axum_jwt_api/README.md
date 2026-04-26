@@ -20,8 +20,3 @@ Just a quick project to figure out JWT authentication using the newer Axum (v0.7
    ```
 
 If your token is valid, you'll hit the secure endpoint. Otherwise, the auth middleware will bounce you with an unauthorized error.
-
-## Screenshots
-
-![Generating Token](<Screenshot 2026-04-21 at 2.38.41 AM.png>)
-![Accessing Protected Route](<Screenshot 2026-04-21 at 2.38.47 AM.png>)

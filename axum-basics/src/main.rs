@@ -115,7 +115,7 @@ async fn main() {
     let dbs = client.list_database_names().await.expect("unable to fetch DBs");
     println!("Successfully Connected :=> {:?}",dbs);
     let database = client.database("todo_list_rust");
-    let my_collection : Collection<Document> = database.collection("todo_list");
+
     let state = AppState {
         db: Arc::new(Mutex::new(HashMap::new())),
     };
