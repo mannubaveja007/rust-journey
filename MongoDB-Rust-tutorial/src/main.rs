@@ -2,16 +2,16 @@ use axum::{Json, Router, body::Body, extract::State, routing::get};
 use mongodb::{
     Client, Collection,
     bson::{Document, doc},
+    results::InsertOneResult,
 };
 use serde::{Deserialize, Serialize};
-use std::{sync::Arc};
+use std::sync::Arc;
 use tokio;
 use tokio::net::TcpListener;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct StockUsers {
     #[serde(rename = "_id")]
-    id: u32,
     walletAddress: String,
 }
 
@@ -31,6 +31,15 @@ async fn get_stocks(State(state): State<Arc<AppState>>) -> Result<Json<Document>
     }
 }
 
+async fn post_stock(
+    State(state): State<Arc<AppState>>,
+    Json(input): Json<StockUsers>,
+) -> Result<Json<InsertOneResult>, String> {
+    let db = state.client.database("stockDB");
+    let my_coll: Collection<StockUsers> = db.collection("stocks");
+    let result = my_coll.insert_one(input).await.map_err(|e| e.to_string())?;
+    Ok(Json(result))
+}
 
 #[tokio::main]
 async fn main() -> Result<(), mongodb::error::Error> {
