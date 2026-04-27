@@ -17,6 +17,8 @@ use tokio::net::TcpListener;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct StockUsers {
+    #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
+    pub id: Option<ObjectId>,
     walletAddress: String,
 }
 
