@@ -21,7 +21,7 @@ struct StockUsers {
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Welcome {
+pub struct WelcomeResponse {
     #[serde(rename = "_id")]
     id: Id,
     name: String,
@@ -38,15 +38,14 @@ pub struct Id {
     oid: String,
 }
 
-
 #[derive(Clone)]
 struct AppState {
     client: Client,
 }
 
-async fn get_stocks(State(state): State<Arc<AppState>>) -> Result<Json<Document>, String> {
+async fn get_stocks(State(state): State<Arc<AppState>>) -> Result<Json<WelcomeResponse>, String> {
     let db = state.client.database("stockDB");
-    let my_coll: Collection<Document> = db.collection("stocks");
+    let my_coll: Collection<WelcomeResponse> = db.collection("stocks");
 
     match my_coll.find_one(doc! {"name": "Tesla"}).await {
         Ok(Some(doc)) => Ok(Json(doc)),
