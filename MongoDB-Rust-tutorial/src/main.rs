@@ -42,6 +42,10 @@ struct AppState {
     client: Client,
 }
 
+// Problem was previous find_one was returning Option<Stock> and by dereferencing it gave us the Stock and this
+// Find functions gives us the cursor as it contains multiple records!
+// learn about the map_err function and this weird syntax lol .map_err(|e| e.to_string())?;
+// and fixed the mistake
 async fn get_stocks(State(state): State<Arc<AppState>>) -> Result<Json<Vec<Stock>>, String> {
     let db = state.client.database("stockDB");
     let my_coll: Collection<Stock> = db.collection("stocks");
@@ -52,6 +56,7 @@ async fn get_stocks(State(state): State<Arc<AppState>>) -> Result<Json<Vec<Stock
 }
 
 // beautiful working function
+
 async fn post_stock(
     State(state): State<Arc<AppState>>,
     Json(input): Json<StockUsers>,
