@@ -18,8 +18,21 @@ use tokio::net::TcpListener;
 #[derive(Debug, Deserialize, Serialize)]
 struct StockUsers {
     #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
-    pub id: Option<ObjectId>,
+    id: Option<ObjectId>,
     walletAddress: String,
+}
+
+// i use https://app.quicktype.io/ to convert my json data to Rust struct ASAP!
+#[derive(Debug, Deserialize, Serialize)]
+struct Stock {
+    #[serde(rename = "_id")]
+    id: String,
+    name: String,
+    price: i64,
+    available_quantity: i64,
+    symbol: String,
+    #[serde(rename = "__v")]
+    v: i64,
 }
 
 #[derive(Serialize, Deserialize)]
