@@ -35,6 +35,7 @@ async fn get_stocks(State(state): State<Arc<AppState>>) -> Result<Json<Document>
     }
 }
 
+// beautiful working function
 async fn post_stock(
     State(state): State<Arc<AppState>>,
     Json(input): Json<StockUsers>,
