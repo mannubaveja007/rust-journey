@@ -48,7 +48,7 @@ async fn main() -> Result<(), mongodb::error::Error> {
 
     let state = Arc::new(AppState { client });
     let app = Router::new().route("/", get(get_stocks)).with_state(state);
-    println!("Backend in running on https://127.0.0.1:3000");
+    println!("Backend in running on http://127.0.0.1:3000");
     let listner = TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listner, app).await.unwrap();
     Ok(())
