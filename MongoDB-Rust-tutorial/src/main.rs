@@ -4,6 +4,7 @@ use axum::{
     extract::State,
     routing::{get, post},
 };
+use futures::{TryStreamExt, future::ok};
 use mongodb::bson::oid::ObjectId;
 use mongodb::{
     Client, Collection,
@@ -41,15 +42,13 @@ struct AppState {
     client: Client,
 }
 
-async fn get_stocks(State(state): State<Arc<AppState>>) -> Result<Json<Stock>, String> {
+async fn get_stocks(State(state): State<Arc<AppState>>) -> Result<Json<Vec<Stock>>, String> {
     let db = state.client.database("stockDB");
     let my_coll: Collection<Stock> = db.collection("stocks");
+    let result = my_coll.find(doc! {}).await.map_err(|e| e.to_string())?;
 
-    match my_coll.find_one(doc! {"name": "Tesla"}).await {
-        Ok(Some(doc)) => Ok(Json(doc)),
-        Ok(None) => Err("Stock not found".into()),
-        Err(e) => Err(e.to_string()),
-    }
+    let stocks: Vec<Stock> = result.try_collect().await.map_err(|e| e.to_string())?;
+    Ok(Json(stocks))
 }
 
 // beautiful working function
