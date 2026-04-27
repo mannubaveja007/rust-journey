@@ -16,7 +16,6 @@ use tokio::net::TcpListener;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct StockUsers {
-    #[serde(rename = "_id")]
     walletAddress: String,
 }
 
@@ -41,7 +40,7 @@ async fn post_stock(
     Json(input): Json<StockUsers>,
 ) -> Result<Json<InsertOneResult>, String> {
     let db = state.client.database("stockDB");
-    let my_coll: Collection<StockUsers> = db.collection("stocks");
+    let my_coll: Collection<StockUsers> = db.collection("users");
     let result = my_coll.insert_one(input).await.map_err(|e| e.to_string())?;
     Ok(Json(result))
 }
