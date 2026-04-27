@@ -19,6 +19,26 @@ struct StockUsers {
     walletAddress: String,
 }
 
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Welcome {
+    #[serde(rename = "_id")]
+    id: Id,
+    name: String,
+    price: i64,
+    available_quantity: i64,
+    symbol: String,
+    #[serde(rename = "__v")]
+    v: i64,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Id {
+    #[serde(rename = "$oid")]
+    oid: String,
+}
+
+
 #[derive(Clone)]
 struct AppState {
     client: Client,
