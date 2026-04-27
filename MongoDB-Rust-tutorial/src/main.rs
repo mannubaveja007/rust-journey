@@ -1,4 +1,9 @@
-use axum::{Json, Router, body::Body, extract::State, routing::get};
+use axum::{
+    Json, Router,
+    body::Body,
+    extract::State,
+    routing::{get, post},
+};
 use mongodb::{
     Client, Collection,
     bson::{Document, doc},
@@ -47,7 +52,10 @@ async fn main() -> Result<(), mongodb::error::Error> {
     let client = Client::with_uri_str("mongodb://localhost:27017/").await?;
 
     let state = Arc::new(AppState { client });
-    let app = Router::new().route("/", get(get_stocks)).with_state(state);
+    let app = Router::new()
+        .route("/", get(get_stocks))
+        .route("/stock", post(post_stock))
+        .with_state(state);
     println!("Backend in running on http://127.0.0.1:3000");
     let listner = TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listner, app).await.unwrap();
