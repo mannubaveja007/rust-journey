@@ -5,6 +5,19 @@ use std::time::Instant;
 use std::sync::{Arc,Mutex};
 
 
+pub struct TokenBucketInner{
+    token : f64,
+    capacity : f64,
+    refill_rate : f64,
+    last_refill : Instant,
+}
+
+pub struct TokenBucket {
+    inner : Arc<Mutex<TokenBucketInner>>
+}
+
+
+
 #[derive(Debug, Deserialize, Serialize)]
 struct Response {
     status: String,
