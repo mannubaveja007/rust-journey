@@ -1,22 +1,34 @@
 use axum::{Json, Router, response::IntoResponse, routing::get};
 use serde::{Deserialize, Serialize};
-use tokio;
+use std::sync::{Arc, Mutex};
 use std::time::Instant;
-use std::sync::{Arc,Mutex};
+use tokio;
 
-
-pub struct TokenBucketInner{
-    token : f64,
-    capacity : f64,
-    refill_rate : f64,
-    last_refill : Instant,
+pub struct TokenBucketInner {
+    token: f64,
+    capacity: f64,
+    refill_rate: f64,
+    last_refill: Instant,
 }
 
 pub struct TokenBucket {
-    inner : Arc<Mutex<TokenBucketInner>>
+    inner: Arc<Mutex<TokenBucketInner>>,
 }
 
-
+// A new bucket is created
+//
+impl TokenBucket {
+    pub fn new(capacity: f64, refill_rate: f64) -> Self {
+        Self {
+            inner: Arc::new(Mutex::new(TokenBucketInner {
+                token: capacity,
+                capacity,
+                refill_rate,
+                last_refill: Instant::now(),
+            })),
+        }
+    }
+}
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Response {
